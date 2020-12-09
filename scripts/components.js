@@ -58,11 +58,14 @@ async function paginationComponent({currentPage}) {
     return `
     <nav class="pagination is-centered is-small" role="navigation" aria-label="pagination">
       <ul class="pagination-list">
-        ${
-          [...Array(data.totalCount).keys()].map((idx) => {
-            return `<li><a class="pagination-link ${(idx+1 === currentPage) ? 'is-current' : ''}" href="?page=${idx+1}" aria-label="Goto page ${idx+1}">${idx+1}</a></li>`
-          }).join('')
-        }
+        ${currentPage !== 1 ? `<li><a class="pagination-link ${(currentPage === 1) ? 'is-current' : ''}" href="?page=1" aria-label="Goto page 1">1</a></li>` : ''}
+        ${currentPage > 2 ? `<li><span class="pagination-link">&hellip;</span></li>` : ''}
+        ${currentPage - 1 > 1 ? `<li><a class="pagination-link" href="?page=${currentPage-1}" aria-label="Goto page ${currentPage-1}">${currentPage-1}</a></li>` : ''}
+        <li><a class="pagination-link is-current" href="?page=${currentPage}" aria-label="Goto page ${currentPage}">${currentPage}</a></li>
+        ${currentPage + 1 <= data.totalCount ? `<li><a class="pagination-link" href="?page=${currentPage+1}" aria-label="Goto page ${currentPage+1}">${currentPage+1}</a></li>` : ''}
+        ${currentPage < data.totalCount - 2 ? `<li><span class="pagination-link">&hellip;</span></li>` : ''}
+        ${currentPage < data.totalCount - 1 ? `<li><a class="pagination-link ${(currentPage === 1) ? 'is-current' : ''}" href="?page=${data.totalCount}" aria-label="Goto page ${data.totalCount}">${data.totalCount}</a></li>` : ''}
+        
       </ul>
     </nav>
     `;
