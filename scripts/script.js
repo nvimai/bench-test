@@ -7,13 +7,17 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function controller({root, page}) {
-  let data = await getData(page);
-  render(data);
+  getData(page).then(data => {
+    render(data);
+  }).catch(error => {
+    console.log(error)
+    render({})
+  });
   // getData()
 
   async function render(data) {
     root.querySelector('.transactions').innerHTML = (await transComponent({data})).trim();
-    root.querySelector('.paginations').innerHTML = (await paginationComponent({data, currentPage: page})).trim();
+    root.querySelector('.paginations').innerHTML = (await paginationComponent({currentPage: page})).trim();
   }
 }
 
@@ -23,11 +27,19 @@ async function controller({root, page}) {
  */
 function getData(page) {
   return new Promise((resolve, reject) => {
-      fetch(`https://resttest.bench.co/transactions/${page}.json`)
-      .then(res => res.json())
-      .then(res => resolve(res))
-      .catch(error => reject(error))
-    
+    try {
+        fetch(`https://resttest.bench.co/transactions/${page}.json`)
+        .then(async res => {
+          if(!res.ok) {
+            return reject('Not found')
+          } else
+          return resolve(await res.json())
+        })
+        .catch(error => reject(error))
+    } catch(error) {
+      console.log(error)
+      reject(error)
+    }
   })
 }
 
@@ -67,17 +79,18 @@ function transComponent({data}) {
           </tr>
         </thead>
         <tbody>
-          ${data.transactions.map((item) => transRow(item)).join('')}
+          ${data?.transactions?.map((item) => transRow(item)).join('') || '<tr><td><i>Empty</i></td></tr>'}
         </tbody>
       </table>
     `;
   } catch (error) {
-    return '';
+    return 'He';
   }
 }
 
-async function paginationComponent({data, currentPage}) {
+async function paginationComponent({currentPage}) {
   try {
+    let data = await getData(1);
     return `
     <nav class="pagination is-centered is-small" role="navigation" aria-label="pagination">
       <ul class="pagination-list">
