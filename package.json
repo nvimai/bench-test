@@ -1,0 +1,27 @@
+{
+  "name": "bench-test",
+  "version": "1.0.0",
+  "description": "The test for Frontend Developer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nvimai/bench-test.git"
+  },
+  "keywords": [
+    "bench",
+    "test",
+    "frontend"
+  ],
+  "author": "Nvi Mai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nvimai/bench-test/issues"
+  },
+  "homepage": "https://github.com/nvimai/bench-test#readme",
+  "dependencies": {
+    "bulma": "^0.9.1"
+  }
+}
