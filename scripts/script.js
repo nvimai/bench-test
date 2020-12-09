@@ -1,11 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
-  let page = Number.parseInt(document.location.search?.split('page=')[1] || '1');
+  let params = new URLSearchParams(document.location.search);
+  let page = Number.parseInt(params.get('page') || '1');
   controller({
     root: document.getElementById('root'), 
     page
   });
 });
 
+/**
+ * Get data and render
+ * @param {object} params
+ */
 async function controller({root, page}) {
   getData(page).then(data => {
     render(data);
@@ -13,7 +18,6 @@ async function controller({root, page}) {
     console.log(error)
     render({})
   });
-  // getData()
 
   async function render(data) {
     root.querySelector('.transactions').innerHTML = (await transComponent({data})).trim();
@@ -23,21 +27,57 @@ async function controller({root, page}) {
 
 /**
  * Fetch data from REST api
- * @param {Number} page 
+ * @param {number} page 
  */
-function getData(page) {
+function getData(page = 1) {
   return new Promise((resolve, reject) => {
     try {
-        fetch(`https://resttest.bench.co/transactions/${page}.json`)
-        .then(async res => {
-          if(!res.ok) {
-            return reject('Not found')
-          } else
-          return resolve(await res.json())
-        })
-        .catch(error => reject(error))
+      fetch(`https://resttest.bench.co/transactions/${page}.json`)
+      .then(async res => {
+        if(!res.ok) {
+          return reject('Not found')
+        } else
+        return resolve(await res.json())
+      })
+      .catch(error => reject(error))
     } catch(error) {
-      console.log(error)
+      reject(error)
+    }
+  })
+}
+
+/**
+ * Get all transactions from REST api
+ */
+
+function getAllTransactions() {
+  return new Promise((resolve, reject) => {
+    try {
+      // Get the first page to have the brief information
+      fetch(`https://resttest.bench.co/transactions/1.json`)
+      .then(async res => {
+        let data = await res.json();
+        let transactions = [...data.transactions];
+
+        // Generate the array to fetch all pages
+        let array = [...Array(data.totalCount-1).keys()].map(ele => ele + 2);
+
+        // Fetch all pages and push them to data array
+        Promise.all(
+          array.map(page => {
+            fetch(`https://resttest.bench.co/transactions/${page}.json`)
+            .then(async item => {
+              if(item.ok) {
+                transactions.push(...(await item.json()).transactions);
+              }
+            })
+          }))
+        .then(() => {
+          resolve(transactions)
+        })
+      })
+      .catch(error => reject(error))
+    } catch(error) {
       reject(error)
     }
   })
@@ -45,7 +85,7 @@ function getData(page) {
 
 /**
  * Render a row of table
- * @param {Object} transaction 
+ * @param {object} transaction 
  */
 function transRow(transaction) {
   if(transaction) {
@@ -66,8 +106,13 @@ function transRow(transaction) {
  * Render transactions table
  * @param {object} params 
  */
-function transComponent({data}) {
+async function transComponent({data}) {
   try {
+    getAllTransactions().then(transactions => {
+      let sum = transactions.reduce((pre, cur) => pre + Number.parseFloat(cur.Amount), 0);
+      document.getElementById('total').innerHTML = currencyFormat(sum);
+    })
+    
     return `
       <table class="table">
         <thead>
@@ -75,7 +120,7 @@ function transComponent({data}) {
             <th>Date</th>
             <th>Company</th>
             <th>Account</th>
-            <th></th>
+            <th class="has-text-right" id="total"></th>
           </tr>
         </thead>
         <tbody>
@@ -84,10 +129,14 @@ function transComponent({data}) {
       </table>
     `;
   } catch (error) {
-    return 'He';
+    return '<p>Something went wrong!!!</p>';
   }
 }
 
+/**
+ * Render the pagination section
+ * @param {object} params
+ */
 async function paginationComponent({currentPage}) {
   try {
     let data = await getData(1);
@@ -96,7 +145,7 @@ async function paginationComponent({currentPage}) {
       <ul class="pagination-list">
         ${
           [...Array(data.totalCount).keys()].map((idx) => {
-            return `<li><a class="pagination-link ${(idx+1 === currentPage) ? 'is-current' : ''}" href="/?page=${idx+1}" aria-label="Goto page ${idx+1}">${idx+1}</a></li>`
+            return `<li><a class="pagination-link ${(idx+1 === currentPage) ? 'is-current' : ''}" href="?page=${idx+1}" aria-label="Goto page ${idx+1}">${idx+1}</a></li>`
           }).join('')
         }
       </ul>
@@ -118,8 +167,8 @@ function dateFormat(date) {
 
 /**
  * Format the currency string
- * @param {String} value 
- * @param {String} currency 
+ * @param {string} value 
+ * @param {string} currency 
  */
 function currencyFormat(value, currency = 'USD') {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(value);
