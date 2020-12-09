@@ -1,4 +1,3 @@
-@import '../node_modules/bulma/css/bulma.min.css';
 @font-face {
   font-family: "LLCircularWeb";
   src: url("../fonts/circular/lineto-circular-black-s.eot");
@@ -6,6 +5,7 @@
   font-weight: 800;
   font-style: normal;
 }
+
 @font-face {
   font-family: "LLCircularWeb";
   src: url("../fonts/circular/lineto-circular-blackitalic-s.eot");
@@ -13,6 +13,7 @@
   font-weight: 800;
   font-style: italic;
 }
+
 @font-face {
   font-family: "LLCircularWeb";
   src: url("../fonts/circular/lineto-circular-bold-s.eot");
@@ -20,6 +21,7 @@
   font-weight: bold;
   font-style: normal;
 }
+
 @font-face {
   font-family: "LLCircularWeb";
   src: url("../fonts/circular/lineto-circular-bolditalic-s.eot");
@@ -27,6 +29,7 @@
   font-weight: bold;
   font-style: italic;
 }
+
 @font-face {
   font-family: "LLCircularWeb";
   src: url("../fonts/circular/lineto-circular-book-s.eot");
@@ -34,6 +37,7 @@
   font-weight: normal;
   font-style: normal;
 }
+
 @font-face {
   font-family: "LLCircularWeb";
   src: url("../fonts/circular/lineto-circular-bookitalic-s.eot");
@@ -41,6 +45,7 @@
   font-weight: normal;
   font-style: italic;
 }
+
 @font-face {
   font-family: "LLCircularWeb";
   src: url("../fonts/circular/lineto-circular-medium-s.eot");
@@ -48,6 +53,7 @@
   font-weight: 600;
   font-style: normal;
 }
+
 @font-face {
   font-family: "LLCircularWeb";
   src: url("../fonts/circular/lineto-circular-mediumitalic-s.eot");
@@ -55,6 +61,7 @@
   font-weight: 600;
   font-style: italic;
 }
+
 @font-face {
   font-family: "BenchIcons";
   src: url("../fonts/bench-icons/bench-icons.eot");
@@ -62,51 +69,3 @@
   font-weight: normal;
   font-style: normal;
 }
-html {
-  background: #EFEDE8;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-body {
-  font-size: 16px;
-  font-family: "LLCircularWeb";
-}
-body section.hero {
-  background-color: #098B8C;
-}
-body section.hero .title {
-  color: white;
-  font-size: 1.2rem;
-}
-body section.transactions .table {
-  width: 100%;
-  font-weight: bold;
-}
-body section.transactions .table thead tr {
-  border-top-left-radius: 10px;
-}
-body section.transactions .table thead tr th {
-  color: #098B8C;
-  padding: 1rem;
-  font-size: 1rem;
-}
-body section.transactions .table tbody tr {
-  background: white;
-}
-body section.transactions .table tbody tr td {
-  padding: 1rem;
-  font-size: 0.8rem;
-}
-body section.transactions .table tbody tr td:not(:nth-child(2)) {
-  opacity: 0.4;
-}
-body section.transactions .table tbody tr:hover td {
-  color: #098B8C;
-  opacity: 1;
-}
-body section.paginations .pagination-link.is-current {
-  background-color: #098B8C;
-  border-color: #098B8C;
-}
-
-/*# sourceMappingURL=index.css.map */

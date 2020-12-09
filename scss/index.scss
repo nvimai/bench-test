@@ -1,13 +1,16 @@
 @charset "utf-8";
 @import '../node_modules/bulma/css/bulma.min.css';
+@import './fonts.scss';
 $main-green:  #098B8C;
 
 html {
   background: #EFEDE8;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 body {
   font-size: 16px;
+  font-family: 'LLCircularWeb';
 
   section {
 
@@ -15,7 +18,7 @@ body {
       background-color: $main-green;
       .title {
         color: white;
-        font-size: 1.5rem;
+        font-size: 1.2rem;
       }
     }
 
@@ -41,11 +44,16 @@ body {
             td {
               padding: 1rem;
               font-size: 0.8rem;
+
+              &:not(:nth-child(2)) {
+                opacity: 0.4;
+              }
             }
 
             &:hover {
               td {
                 color: $main-green;
+                opacity: 1;
               }
             }
           }
