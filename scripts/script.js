@@ -3,12 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
   controller({
     root: document.getElementById('root'), 
     page
-  })
+  });
 });
 
 async function controller({root, page}) {
   let data = await getData(page);
   render(data);
+  // getData()
 
   async function render(data) {
     root.querySelector('.transactions').innerHTML = (await transComponent({data})).trim();
@@ -20,12 +21,13 @@ async function controller({root, page}) {
  * Fetch data from REST api
  * @param {Number} page 
  */
-function getData(page = 1) {
+function getData(page) {
   return new Promise((resolve, reject) => {
-    fetch(`https://resttest.bench.co/transactions/${page}.json`)
-    .then(res => res.json())
-    .then(res => resolve(res))
-    .catch(error => reject(error))
+      fetch(`https://resttest.bench.co/transactions/${page}.json`)
+      .then(res => res.json())
+      .then(res => resolve(res))
+      .catch(error => reject(error))
+    
   })
 }
 
@@ -37,10 +39,10 @@ function transRow(transaction) {
   if(transaction) {
     return `
       <tr>
-        <td>${transaction.Date}</td>
+        <td>${dateFormat(transaction.Date)}</td>
         <td>${transaction.Company}</td>
         <td>${transaction.Ledger}</td>
-        <td>${transaction.Amount}</td>
+        <td class="has-text-right">${currencyFormat(transaction.Amount)}</td>
       </tr>
     `;
   } else {
@@ -58,7 +60,7 @@ function transComponent({data}) {
       <table class="table">
         <thead>
           <tr>
-            <th>Data</th>
+            <th>Date</th>
             <th>Company</th>
             <th>Account</th>
             <th></th>
@@ -92,4 +94,22 @@ async function paginationComponent({data, currentPage}) {
   }catch (error) {
     return ''
   }
+}
+/**
+ * Format the date string
+ * @param {string} date 
+ */
+function dateFormat(date) {
+  let options = { year: 'numeric', month: 'short', day: '2-digit' };
+  let _date  = new Date(date);
+  return _date.toLocaleDateString("en-US", options)
+}
+
+/**
+ * Format the currency string
+ * @param {String} value 
+ * @param {String} currency 
+ */
+function currencyFormat(value, currency = 'USD') {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(value);
 }

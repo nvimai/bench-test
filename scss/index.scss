@@ -1,11 +1,16 @@
+$main-green:  #098B8C;
+
+html {
+  background: #EFEDE8;
+}
+
 body {
-  background-color: white;
-  font-size: 1rem;
+  font-size: 16px;
 
   section {
 
     &.hero {
-      background-color: #098B8C;
+      background-color: $main-green;
       .title {
         color: white;
         font-size: 1.5rem;
@@ -15,6 +20,34 @@ body {
     &.transactions {
       .table {
         width: 100%;
+        font-weight: bold;
+        thead {
+          tr {
+            border-top-left-radius: 10px;
+
+            th {
+              color: $main-green;
+              padding: 1rem;
+              font-size: 1rem;
+            }
+          }
+        }
+        tbody {
+          tr {
+            background: white;
+
+            td {
+              padding: 1rem;
+              font-size: 0.8rem;
+            }
+
+            &:hover {
+              td {
+                color: $main-green;
+              }
+            }
+          }
+        }
       }
     }
   }
