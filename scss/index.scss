@@ -50,5 +50,14 @@ body {
         }
       }
     }
+
+    &.paginations {
+      .pagination-link {
+        &.is-current {
+          background-color:$main-green;
+          border-color:$main-green;
+        }
+      }
+    }
   }
 }

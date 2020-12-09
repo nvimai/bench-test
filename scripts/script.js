@@ -80,8 +80,6 @@ async function paginationComponent({data, currentPage}) {
   try {
     return `
     <nav class="pagination is-centered is-small" role="navigation" aria-label="pagination">
-      <a class="pagination-previous">Previous</a>
-      <a class="pagination-next">Next page</a>
       <ul class="pagination-list">
         ${
           [...Array(data.totalCount).keys()].map((idx) => {

@@ -34,5 +34,9 @@ body section.transactions .table tbody tr td {
 body section.transactions .table tbody tr:hover td {
   color: #098B8C;
 }
+body section.paginations .pagination-link.is-current {
+  background-color: #098B8C;
+  border-color: #098B8C;
+}
 
 /*# sourceMappingURL=index.css.map */
