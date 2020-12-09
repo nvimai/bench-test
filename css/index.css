@@ -2,5 +2,12 @@ body {
   background-color: white;
   font-size: 1rem;
 }
+body section.hero {
+  background-color: #098B8C;
+}
+body section.hero .title {
+  color: white;
+  font-size: 1.5rem;
+}
 
 /*# sourceMappingURL=index.css.map */
