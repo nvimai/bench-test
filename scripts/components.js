@@ -57,7 +57,7 @@ async function paginationComponent({currentPage}) {
     let data = await getData(1);
     return `
     <nav class="pagination is-centered is-small" role="navigation" aria-label="pagination">
-    ${currentPage !== 1 ? `<a class="pagination-previous" href="?page=${currentPage-1}">Previous</a>` : ''}
+      ${currentPage !== 1 ? `<a class="pagination-previous" href="?page=${currentPage-1}">Previous</a>` : ''}
       ${currentPage !== data.totalCount ? `<a class="pagination-next" href="?page=${currentPage+1}">Next page</a>` : ''}
       <ul class="pagination-list">
         ${currentPage !== 1 ? `<li><a class="pagination-link ${(currentPage === 1) ? 'is-current' : ''}" href="?page=1" aria-label="Goto page 1">1</a></li>` : ''}
@@ -67,7 +67,6 @@ async function paginationComponent({currentPage}) {
         ${currentPage + 1 <= data.totalCount ? `<li><a class="pagination-link" href="?page=${currentPage+1}" aria-label="Goto page ${currentPage+1}">${currentPage+1}</a></li>` : ''}
         ${currentPage < data.totalCount - 2 ? `<li><span class="pagination-link">&hellip;</span></li>` : ''}
         ${currentPage < data.totalCount - 1 ? `<li><a class="pagination-link ${(currentPage === 1) ? 'is-current' : ''}" href="?page=${data.totalCount}" aria-label="Goto page ${data.totalCount}">${data.totalCount}</a></li>` : ''}
-        
       </ul>
     </nav>
     `;
