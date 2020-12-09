@@ -9,5 +9,8 @@ body section.hero .title {
   color: white;
   font-size: 1.5rem;
 }
+body section.transactions .table {
+  width: 100%;
+}
 
 /*# sourceMappingURL=index.css.map */

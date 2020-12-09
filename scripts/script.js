@@ -1,7 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
-  let root = document.getElementById('root');
-  transComponent({root})
+  let page = Number.parseInt(document.location.search?.split('page=')[1] || '1');
+  controller({
+    root: document.getElementById('root'), 
+    page
+  })
 });
+
+async function controller({root, page}) {
+  let data = await getData(page);
+  render(data);
+
+  async function render(data) {
+    root.querySelector('.transactions').innerHTML = (await transComponent({data})).trim();
+    root.querySelector('.paginations').innerHTML = (await paginationComponent({data, currentPage: page})).trim();
+  }
+}
 
 /**
  * Fetch data from REST api
@@ -39,11 +52,10 @@ function transRow(transaction) {
  * Render transactions table
  * @param {object} params 
  */
-async function transComponent({root}) {
+function transComponent({data}) {
   try {
-    let data = await getData(1);
-    const transTable = `
-      <table class="table w-100">
+    return `
+      <table class="table">
         <thead>
           <tr>
             <th>Data</th>
@@ -57,11 +69,27 @@ async function transComponent({root}) {
         </tbody>
       </table>
     `;
-    
-    var div = document.createElement('div');
-    div.innerHTML = transTable.trim();
-    root.querySelector('.transactions').prepend(div);
   } catch (error) {
+    return '';
+  }
+}
 
+async function paginationComponent({data, currentPage}) {
+  try {
+    return `
+    <nav class="pagination is-centered is-small" role="navigation" aria-label="pagination">
+      <a class="pagination-previous">Previous</a>
+      <a class="pagination-next">Next page</a>
+      <ul class="pagination-list">
+        ${
+          [...Array(data.totalCount).keys()].map((idx) => {
+            return `<li><a class="pagination-link ${(idx+1 === currentPage) ? 'is-current' : ''}" href="/?page=${idx+1}" aria-label="Goto page ${idx+1}">${idx+1}</a></li>`
+          }).join('')
+        }
+      </ul>
+    </nav>
+    `;
+  }catch (error) {
+    return ''
   }
 }

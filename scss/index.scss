@@ -3,11 +3,18 @@ body {
   font-size: 1rem;
 
   section {
+
     &.hero {
       background-color: #098B8C;
       .title {
         color: white;
         font-size: 1.5rem;
+      }
+    }
+
+    &.transactions {
+      .table {
+        width: 100%;
       }
     }
   }
